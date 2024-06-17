@@ -1,8 +1,8 @@
 import React, { useEffect, useId, useState } from 'react';
 import axios from 'axios';
 
-const Subscription = ({ courseId, user, showSubscription, setShowSubscription }) => {
-
+const Subscription = ({  user,courseId, showSubscription, setShowSubscription }) => {
+console.log (courseId)
   const [course, setCourse] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null);
@@ -10,10 +10,11 @@ const Subscription = ({ courseId, user, showSubscription, setShowSubscription })
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3000/courses/${courseId}`, { withCredentials: true });
-        setCourse(data.courses)
+        const response  = await axios.get(`http://localhost:3000/courses/${courseId}`, { withCredentials: true });
+        console.log(response.data.courses)
+        setCourse(response.data.courses)
         setIsLoading(false)
-      } catch (error) {
+        } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
@@ -23,21 +24,25 @@ const Subscription = ({ courseId, user, showSubscription, setShowSubscription })
   // const theCourse = categories.find(category => category._id === courseId);
 
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
-
   const handleSubscribe = async () => {
+    // console.log(user.user._id)
     try {
-      const { data } = await axios.put(`http://localhost:3000/courses/subscribe/${courseId}`, { userId: user._id }, { withCredentials: true });
+      // console.log(user)
+      const { data } = await axios.put(`http://localhost:3000/courses/subscribe/${courseId}`,
+         { userId: user.user._id}, { withCredentials: true });
+         
+      
       const { status } = data;
 
-     ;
+
       if (status === 'success') {
         setSubscriptionStatus('subscribed');
       } else {
         setError('Failed to subscribe to the course');
       }
     } catch (error) {
-      console.error(error)
-      setError(error.message);
+      console.log(error)
+      setError(error.response.data.message);
     }
     setShowSubscription(false)
   };

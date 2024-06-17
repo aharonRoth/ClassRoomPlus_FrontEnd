@@ -6,8 +6,13 @@ import { useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import ContentsClassPeople from '../../Components/contents-class-people/ContentsClassPeople'
 import UtilsCheckUserAndToken from '../../utils/utilsCheckUserAndToken'
+import Chatroom from '../../Components/chatroom/chatroom.jsx'
 import AddFile from '../../Components/addFile/AddFile'
 import GetFiles from '../../Components/getFiles/getFiles'
+import Chatbot from '../../Components/chatbot/chatbot'
+
+
+import Header from '../../Components/header/Header'
 
 
 const ContentsClass = () => {
@@ -16,24 +21,22 @@ const ContentsClass = () => {
   const [people, setPeople] = useState(null)
   const [chats, setChats] = useState(null)
   const [openPostFile, setOpenPostFile] = useState(null)
-  const [openGetFiles, setOpenGetFiles] = useState(null)
   const location = useLocation()
+  const [openGetFiles, setOpenGetFiles] = useState(null)
   const { openDate, endDate, courseId, courseName, description, price } = location.state || {};
 
   useEffect(() => {
     checkUserAndToken()
   }, [])
   const [images, setImages] = useState([]);
-  // const [filesIds, setFilesIds] = useState([])
   useEffect(() => {
     const fetchFiles = async () => {
       try {
         const res = await axios.get(`http://localhost:3000/files/course/${courseId}`, { withCredentials: true });
-        // setFilesIds(res.data.files.map(item => item._id))
+        console.log(res);
         const files = res.data.files.map(item => ({ ...item, file: `http://localhost:3000${item.file}` }))
         console.log(files);
         setImages(files);
-
       } catch (error) {
         console.log(error);
       }
@@ -58,7 +61,6 @@ const ContentsClass = () => {
     setCourses(false)
     setChats(false)
     setOpenPostFile(false)
-    setOpenGetFiles(false)
 
   }
   const handleChats = () => {
@@ -66,7 +68,6 @@ const ContentsClass = () => {
     setCourses(false)
     setPeople(false)
     setOpenPostFile(false)
-    setOpenGetFiles(false)
 
 
 
@@ -76,22 +77,25 @@ const ContentsClass = () => {
     setPeople(false)
     setChats(false)
     setOpenPostFile(false)
-    setOpenGetFiles(false)
 
 
   }
   const handleButtonPostFile = () => {
-     setOpenPostFile(true)
+    setOpenPostFile(true)
   }
+ 
   const handleButtonGetFiles = () => {
-     setOpenGetFiles(true)
+    setOpenGetFiles(true)
   }
 
 
   return (
     <>
-
+    <Header showLinks={false} showPartLinks={true}/> 
+      <Chatbot />
       <div id='theContainer1'>
+
+
 
         <button onClick={handleCourses} className='mx-3' id={courses ? 'Courses1' : 'none'}> Courses</button>
         <button onClick={handleChats} className='mx-3' id={chats ? 'Courses1' : 'chats'}>Chats</button>
@@ -100,7 +104,7 @@ const ContentsClass = () => {
       <div id='theCourses1'>
         <h1>{courseName}</h1>
       </div>
-      {courses &&  !openPostFile &&(
+      {courses && !openPostFile && (
         <>
           <div id='theUl1'>
             <ul id='ul'>
@@ -112,7 +116,6 @@ const ContentsClass = () => {
               <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li>
               <li >{price}</li>
               <button id='PostFile' onClick={handleButtonPostFile}> post file</button>
-              <button id='PostFile' onClick={handleButtonGetFiles}> get files</button>
             </ul>
             {isOpen && (
               <div id="popup" style={{ top: position.top, left: position.left }}>
@@ -121,6 +124,8 @@ const ContentsClass = () => {
               </div>
             )}
           </div>
+        <GetFiles images={images} />
+
         </>
       )}
       {people && (
@@ -128,13 +133,12 @@ const ContentsClass = () => {
       )}
       {chats && (
         <div>
-          <p id='חיים'> שלום לחיים שבדרון</p>
-          <p id='חיים'> כאן זה התקפיד שלך למלא</p>
+          <Chatroom courseId={courseId} />
         </div>
       )}
       {openPostFile && (
         <div>
-        <AddFile courseId={courseId}/>
+          <AddFile courseId={courseId} />
         </div>
       )}
       {openGetFiles && (

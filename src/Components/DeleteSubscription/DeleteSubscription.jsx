@@ -7,15 +7,17 @@ const DeleteSubscription = ({ courseId, user, showDeleteSubscription, setDeleteS
 
   const handleDeleteSubscribe = async () => {
   
+    console.log(user)
     try {
       const { data } = await axios.delete(`http://localhost:3000/courses/subscribe/${courseId}`, {
-        data: { userId: user._id },
+        data: {userId: user.user._id},
         withCredentials: true
       })
       console.log(data);
       setNoError(true)
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      console.log(error)
+      setMessage(`Error: ${error.response.data.message}`);
     }
 
     

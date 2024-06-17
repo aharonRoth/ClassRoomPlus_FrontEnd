@@ -1,76 +1,89 @@
-
 .add-course-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
     z-index: 3;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* Style the close button */
+.add-course-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.add-course-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-course-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333333;
+    text-align: center;
+}
+
+.add-course-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.add-course-input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.add-course-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.add-course-button:hover {
+    background-color: #0056b3;
+}
+
 .close-button {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: red;
+    background: #ff4d4d;
     color: white;
     border: none;
     border-radius: 50%;
     width: 30px;
+    height: 30px;
     font-size: 16px;
     cursor: pointer;
     text-align: center;
-    margin-right: 350px;
+    line-height: 30px;
 }
 
 .close-button:hover {
-    background: darkred;
-}
-
-/* Style each input and label */
-form div {
-    margin-bottom: 15px;
-    width: 50%;
-    margin: 0 auto;
-}
-
-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-}
-
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-/* Style the submit button */
-#CreateCourse{
-    background-color: #4CAF50; /* Green background */
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-left: 375px;
-    margin-top: 15px;
-}
-
-button[type="submit"]:hover {
-    background-color: #45a049;
-}
-#userId{
-    background-color: rgba(128, 128, 128, 0.351);
+    background: #cc0000;
 }

@@ -15,7 +15,7 @@ const Home = () => {
     return (
         <>
             <Chatbot />
-            <Header />
+            <Header showLinks={true} />
             <>
                 <HeroSection />
             </>

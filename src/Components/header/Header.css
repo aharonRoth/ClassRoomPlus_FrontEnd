@@ -1,63 +1,9 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-}
-
+/* Minimal custom CSS, using utility classes from Bootstrap and Tailwind */
 .logo-image {
     height: 40px;
-    margin-right: 10px;
 }
 
-.site-name {
+h1 {
     margin: 0;
-}
-
-.nav {
-    display: flex;
-}
-
-.nav-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.nav-item {
-    margin: 0 10px;
-}
-
-.nav-link {
-    color: #fff;
-    text-decoration: none;
-    padding: 5px 10px;
-}
-
-.nav-link:hover {
-    background-color: #575757;
-    border-radius: 5px;
-}
-
-.search {
-    display: flex;
-}
-
-.search-input {
-    padding: 5px;
-    border: none;
-    border-radius: 3px;
+    line-height: normal;
 }

@@ -18,7 +18,6 @@ const CourseCard = ({ course }) => {
       <img src={course.image} className="card-img-top" alt={course.title} />
       <div className="card-body">
         <h5 className="card-title">{course.title}</h5>
-        <p className="card-text">{course.description}</p>
         <p className="card-text">Price: ${course.price}</p>
         <button onClick={() => chektoseeifuserloggedin(() => navigate(`/contentsClass`,{ state: course}))} className="btn btn-primary">View Course</button>
        

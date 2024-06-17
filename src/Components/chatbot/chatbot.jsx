@@ -1,20 +1,33 @@
+// Chatbot.jsx
 import React, { useState, useEffect } from 'react';
 import { fetchQuestion, submitResponse } from '../../api';
 import Question from './Question';
 import './chatbot.css';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const Chatbot = () => {
+const Chatbot = ({ onNavigateToCourse }) => {
   const [question, setQuestion] = useState(null);
   const [questionId, setQuestionId] = useState(1);
   const [url, setUrl] = useState(null);
-  const [isOpen, setIsOpen] = useState(false); // State to control opening/closing of chat container
-  const [loading, setLoading] = useState(false); // State to handle loading
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate(); // Using useNavigate instead of useHistory
+
+  const getPageIdentifier = (pathname) => {
+    if (pathname.includes('dashboard')) return 'dashboard';
+    if (pathname.includes('contentsClass')) return 'contentsClass';
+    if (pathname.includes('verifi')) return 'verifi';
+    return 'home';
+  };
+
+  const page = getPageIdentifier(location.pathname);
 
   const fetchData = async () => {
-    console.log(`Fetching question for questionId: ${questionId}`);
+    console.log(`Fetching question for page: ${page}, questionId: ${questionId}`);
     setLoading(true);
     try {
-      const response = await fetchQuestion(questionId);
+      const response = await fetchQuestion(page, questionId);
       console.log('Fetched question:', response.data);
       setQuestion(response.data);
     } catch (error) {
@@ -26,21 +39,24 @@ const Chatbot = () => {
 
   useEffect(() => {
     fetchData();
-  }, [questionId]);
+  }, [questionId, location.pathname]);
 
   const handleOptionClick = async (optionId) => {
     console.log('Option clicked:', optionId);
     setLoading(true);
     try {
-      const response = await submitResponse(question.id, optionId);
+      const response = await submitResponse(page, question.id, optionId);
       console.log('Submit response:', response.data);
 
-      // Ensure response.data.nextQuestionId is valid
-      if (response.data.nextQuestion.id) {
+      if (response.data.nextQuestion) {
         setQuestionId(response.data.nextQuestion.id);
+      } else if (response.data.courseId) {
+        onNavigateToCourse(response.data.courseId);
+      } else if (response.data.url) {
         setUrl(response.data.url);
+        navigate(response.data.url); // Use navigate for navigation
       } else {
-        console.error('nextQuestionId is undefined:', response.data);
+        console.error('No nextQuestionId, courseId, or URL in response:', response.data);
       }
     } catch (error) {
       console.error('Error submitting response:', error);
@@ -53,21 +69,18 @@ const Chatbot = () => {
     setIsOpen(!isOpen);
   };
 
-  // Log current state for debugging
   console.log('Current state:', { question, questionId, url, isOpen, loading });
 
   return (
     <div>
-      {/* Chatbot icon */}
       <div className="chatbot-icon" onClick={toggleChatbot}>
         <i className="fas fa-comment"></i>
       </div>
 
-      {/* Chatbot container */}
       {isOpen && (
         <div className="chatbot-container">
-          <h1>I'm chaty </h1>
-          <h2 className="question-title">{question.greeting}</h2>
+          <h1>I'm chaty</h1>
+          <h2 className="question-title">{question?.greeting}</h2>
           {loading ? (
             <div>Loading...</div>
           ) : url ? (

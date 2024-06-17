@@ -1,51 +1,90 @@
-.card{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 55%;
-    height: 100%;
-    /* background-color: aqua; */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#courseName{
-    font-weight: 400;
-    width: 50%;
-    margin-right: 10%;
-    font-size: 20px;
-    color: blue; 
-    background-color: palevioletred;  
-    text-align: center; 
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
-#opendate{
-    background-color: rgba(128, 128, 128, 0.389);
-    font-size: 15px;
+
+#courseName {
+  font-weight: 600;
+  font-size: 24px;
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 10px;
 }
-#endDate{
-    background-color: red;
+
+#opendate, #endDate {
+  background-color: #f0f0f0;
+  font-size: 15px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-left: 5px;
 }
-.pCI{
-   font-size: 15px; 
+
+.pCI {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
 }
-.button{
-    margin-left: 0px;
-    font-weight: 400;
-    float: left;
-    color: blue;
-    background-color: rgba(0, 128, 0, 0.545);
-    border-radius: 8px 8px 8px;
-   
+
+.button, .button2, .button3 {
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
-#b{
-    font-weight: bold;
+
+.button:hover, .button2:hover, .button3:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
-.button2{
-    background-color: rgba(0, 0, 0, 0.538);
-    width: 120px;
-    height: 40px;
+
+.button2, .button3 {
+  width: 100%;
+  margin-top: 5px;
 }
-.button3{
-    margin-top: 5px;
-    background-color: rgba(0, 0, 0, 0.538);
-    width: 120px;
-    height: 60px;
+
+.d-flex {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.d-flex.gap-1 > div {
+  margin-left: 5px;
+}
+
+.label {
+  font-weight: bold;
+  color: #555;
+}
+
+/* Media Queries for Responsiveness */
+@media (min-width: 768px) {
+  .card {
+    width: 75%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card {
+    width: 55%;
+  }
 }

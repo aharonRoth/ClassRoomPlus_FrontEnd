@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from '././../../Components/header/Header'
+
 import './Login.css'
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [missing, setMissing] = useState('');
   const [error, setError] = useState(null);
 
@@ -45,13 +48,20 @@ const Login = () => {
     }
     navigate('/');
   };
+    const handleLogout = () => {
+        localStorage.removeItem('userInfo');
+        window.location.href = '/login';
+    };
 
   return (
     <>
+    {/*the heater should be with no links  */}
+    <Header showLinks={false} />
       <div className='maincontainer1'>
         <div className="login-container">
+          <form className="login-form" onSubmit={handleLogin}>
           <h2 className="login-title">Welcome to our classroom</h2>
-          <form onSubmit={handleLogin}>
+          
             <label className="login-label">Email:</label>
             <input
               className="login-input"
@@ -67,16 +77,16 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {error && (
-              <p>{error}</p>
-            )}
-            {missing && (
-              <p>{missing}</p>
-            )}
+
+          
+            <div className='bottons'>
             <button className="login-button" type="submit">Login</button>
+            <button className="login-button" onClick={() => navigate('/Signup')}>Signup</button>
+            </div>
           </form>
         </div>
       </div>
+      {/* <Footer /> */}
     </>
   );
 };
