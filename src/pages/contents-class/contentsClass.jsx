@@ -150,7 +150,7 @@ const ContentsClass = () => {
             )}
           </div>
         </>
-        </>
+       
       )}
       {people && (
         <ContentsClassPeople friends={friends} />
