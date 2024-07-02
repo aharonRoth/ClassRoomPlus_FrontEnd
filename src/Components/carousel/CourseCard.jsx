@@ -2,6 +2,7 @@ import React from 'react';
 import CourseItem from "../course-item/courseItem";
 
 const CourseCard = ({ course }) => {
+  console.log(course.courseimg)
   return (
     <div className="col-md-4">
       <CourseItem

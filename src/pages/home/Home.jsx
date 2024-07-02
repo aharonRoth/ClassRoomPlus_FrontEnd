@@ -52,7 +52,7 @@ const Home = () => {
                 <HeroSection />
             </>
             <>
-                <CoursesSection courses={courses} loading={loading} setLoading={setLoading} error={error}/>
+                {/* <CoursesSection courses={courses} loading={loading} setLoading={setLoading} error={error}/> */}
             </>
             <Subjects 
              show={show}

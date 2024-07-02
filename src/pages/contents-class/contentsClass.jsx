@@ -39,10 +39,7 @@ const ContentsClass = () => {
 
   useEffect(() => {
     checkUserAndToken();
-    if (isTeacher.length > 0 && isTeacher[0].role === 'teacher') {
-      setTeacher(true);
-    }
-  }, [checkUserAndToken, isTeacher]);
+  }, [checkUserAndToken, userId, theUserId]);
 
   // useEffect(() => {
   //   const fetchfriends = async () => {
@@ -70,52 +67,45 @@ const ContentsClass = () => {
 
       } catch (error) {
         console.log(error);
+        console.error('Error fetching data:', error);
       }
-    };
+    }
 
-    fetchFiles();
+
+    fetchData();
   }, [courseId]);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [position, setPosition] = useState({});
-  const targetRef = useRef(null);
-
-
-  const togglePopup = () => {
-    const { top, left } = targetRef.current.getBoundingClientRect();
-    const popupTopPosition = top + window.scrollY - 30;
-    setPosition({ top: popupTopPosition, left: left + window.scrollX });
-    setIsOpen(!isOpen);
-  };
+  
   const handlePeople = () => {
-    setPeople(true)
-    setCourses(false)
-    setChats(false)
-    setOpenPostFile(false)
+    setPeople(true);
+    setCourses(false);
+    setChats(false);
+    setOpenPostFile(false);
+  };
 
-  }
   const handleChats = () => {
-    setChats(true)
-    setCourses(false)
-    setPeople(false)
-    setOpenPostFile(false)
+    setChats(true);
+    setCourses(false);
+    setPeople(false);
+    setOpenPostFile(false);
+  };
 
-
-
-  }
   const handleCourses = () => {
-    setCourses(true)
-    setPeople(false)
-    setChats(false)
-    setOpenPostFile(false)
+    setCourses(true);
+    setPeople(false);
+    setChats(false);
+    setOpenPostFile(false);
+  };
 
-
-  }
   const handleButtonPostFile = () => {
-    setOpenPostFile(true)
-  }
+    setOpenPostFile(true);
+  };
 
  console.log(images);
+  const handleFileUpload = (newFile) => {
+    setImages([...images, newFile]);
+    setOpenPostFile(false);
+  };
+
   return (
     <>
       <Header showLinks={false} showPartLinks={true} />
@@ -146,7 +136,7 @@ const ContentsClass = () => {
               </li>
               <li>{openDate}</li>
               <li>{endDate}</li>
-              <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li>
+              {/* <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li> */}
               <li>{price}</li>
               {teacher && (
                 <button id='PostFile' onClick={handleButtonPostFile}>Post file</button>
@@ -160,9 +150,10 @@ const ContentsClass = () => {
             )}
           </div>
         </>
+       
       )}
       {people && (
-        <ContentsClassPeople courseId={courseId} />
+        <ContentsClassPeople friends={friends} />
       )}
       {chats && (
         <div>
@@ -171,7 +162,7 @@ const ContentsClass = () => {
       )}
       {openPostFile && (
         <div>
-          <AddFile courseId={courseId} />
+          <AddFile courseId={courseId} onFileUpload={handleFileUpload}  />
         </div>
       )}
       {fullFile && (

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import './getFiles.css'
+import React, { useState } from 'react';
+import './getFiles.css';
 import DeleteFile from '../deleteFile/DeleteFile';
 
 const GetFiles = ({ images, teacher, fullFile, setFullFile }) => {
@@ -10,7 +10,7 @@ const GetFiles = ({ images, teacher, fullFile, setFullFile }) => {
 
   const handleDeleteFile = (imageId) => {
     setSelectedFileId(imageId);
-    setopenDeleteFile(true);
+    setOpenDeleteFile(true);
   };
 
   const handleToFullFile = () => {
@@ -71,6 +71,3 @@ const GetFiles = ({ images, teacher, fullFile, setFullFile }) => {
 
 
 export default GetFiles;
-
-
-

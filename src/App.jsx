@@ -27,6 +27,7 @@ function App() {
       try {
         const response = await axios.get('http://localhost:3000/courses/byUser', { withCredentials: true });
         const { data } = response;
+        
         if (!data || data.userscourses.length === 0) {
           setIsSubscribed(false);
         } else {

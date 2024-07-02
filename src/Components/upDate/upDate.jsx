@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './update.css';
 
 const Update = ({ categories }) => {
     const [openUpdate, setOpenUpdate] = useState(false);
@@ -73,7 +74,7 @@ const Update = ({ categories }) => {
    
         return (
             <>
-                <div className='d-flex'>
+                <div className='d-flex '>
                     <div className='mr-5'>
                         To update
                     </div>
