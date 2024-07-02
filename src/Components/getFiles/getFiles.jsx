@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './getFiles.css';
 import DeleteFile from '../deleteFile/DeleteFile';
 
-const GetFiles = ({ images, teacher }) => {
-  const [openDeleteFile, setOpenDeleteFile] = useState(false);
+const GetFiles = ({ images, teacher, fullFile, setFullFile }) => {
+  console.log(fullFile);
+  console.log(images);
+  const [openDeleteFile, setopenDeleteFile] = useState(null)
   const [selectedFileId, setSelectedFileId] = useState(null);
 
   const handleDeleteFile = (imageId) => {
@@ -11,34 +13,61 @@ const GetFiles = ({ images, teacher }) => {
     setOpenDeleteFile(true);
   };
 
-  const handleCloseDeleteModal = () => {
-    setOpenDeleteFile(false);
-    setSelectedFileId(null); // Reset selected file id after closing modal
-  };
+  const handleToFullFile = () => {
+    setFullFile(true)
+  }
+  const handleToFullFileClose = () => {
+    setFullFile(false)
+  }
+
 
   return (
-    <div className="file-container">
-      {images && (
-        <div className='file-grid'>
-          {images.map((image, index) => (
-            <div key={index} className='file-item'>
-              <a href={image.file} target='_blank' rel='noopener noreferrer' className='file-link'>
-                View File
-              </a>
-              {teacher && (
-                <button className='delete-button' onClick={() => handleDeleteFile(image._id)}>
-                  Delete File
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
+    <>
+  <div>
+  {!fullFile && (
+      <div>
+        {images && (
+          <div className='d-flex flex-wrap'>
+            {images.map((image) => {
+              return(
+                <div key={image._id}>
+                <button onClick={handleToFullFile}> Link </button>
+                <p>name</p>
+                  {/* <img src={`http://localhost:3000/${image.file}`} alt="" /> */}
+                  {teacher && (
+                    <button id='PostFile' onClick={() => handleDeleteFile(image._id)}>
+                      Delete file
+                    </button>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+        {openDeleteFile && selectedFileId && (
+          <DeleteFile theId={selectedFileId} />
+        )}
+      </div>
       )}
-      {openDeleteFile && selectedFileId && teacher && (
-        <DeleteFile theId={selectedFileId} onClose={handleCloseDeleteModal} />
+      </div>
+      <div>
+      {fullFile && (
+              <div>
+              {images.map((image) => {
+                return(
+                  <div key={image._id} className='w-100 h-100'>
+                    <button onClick={handleToFullFileClose}> x </button>
+                    <img src={`http://localhost:3000/${image.file}`} alt="" />
+                  </div>
+                )
+              })}
+              </div>
       )}
-    </div>
-  );
-};
+      </div>
+      </>
+    );
+  };
+
+
 
 export default GetFiles;
