@@ -57,6 +57,7 @@ const Profile = ({ onClose }) => {
     };
 
     return (
+        
         <div className="container">
             <div className="card mt-5">
                 <div className="card-header d-flex justify-content-between align-items-center">
@@ -156,6 +157,7 @@ const Profile = ({ onClose }) => {
                 </div>
             </div>
         </div>
+       
     );
 };
 

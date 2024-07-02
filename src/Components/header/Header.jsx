@@ -12,10 +12,11 @@ const Header = ({ showLinks, showPartLinks }) => {
 
     useEffect(() => {
         const userinfo = JSON.parse(localStorage.getItem('userInfo'));
+
         if (!userinfo) {
             setIsUse(false);
         } else {
-            setUser(userinfo);
+            setUser(userinfo.data.user);
             if (userinfo.role === 'admin') {
                 setIsAdmin(true);
             }
@@ -63,7 +64,7 @@ const Header = ({ showLinks, showPartLinks }) => {
                 <ul className="d-flex list-unstyled mb-0">
                     {showLinks && !isAdmin && isuse && (
                         <>
-                            {user.avatar && <img className='friendimg' src={user.avatar} alt='avatar' />}
+                            {user.firstName}{user.avatar && <img className='friendimg' src={user.avatar} alt='avatar' />}
                             <li className="nav-item">
                                 <Link to="/dashboard" className="nav-link text-white px-3">Home</Link>
                             </li>
@@ -77,8 +78,7 @@ const Header = ({ showLinks, showPartLinks }) => {
                                 <select className="nav-link bg-dark text-white px-3" defaultValue="" onChange={handleSelectChange}>
                                     <option value="" disabled>Account</option>
                                     <option value="/profile">View Profile</option>
-                                    <option value="/edit-profile">Edit Profile</option>
-                                    <option value="/change-password">Change Password</option>
+                                   
                                     <option value="logout">Logout</option>
                                 </select>
                             </li>
@@ -96,8 +96,7 @@ const Header = ({ showLinks, showPartLinks }) => {
                                 <select className="nav-link bg-dark text-white px-3" defaultValue="#" onChange={handleSelectChange}>
                                     <option value="" disabled>Account</option>
                                     <option value="/profile">View Profile</option>
-                                    <option value="/edit-profile">Edit Profile</option>
-                                    <option value="/change-password">Change Password</option>
+                                   
                                     <option value="logout">Logout</option>
                                 </select>
                             </li>
@@ -121,8 +120,7 @@ const Header = ({ showLinks, showPartLinks }) => {
                                 <select className="nav-link bg-dark text-white px-3" defaultValue="#" onChange={handleSelectChange}>
                                     <option value="#" disabled>Account</option>
                                     <option value="/profile">View Profile</option>
-                                    <option value="/edit-profile">Edit Profile</option>
-                                    <option value="/change-password">Change Password</option>
+                                 
                                     <option value="logout">Logout</option>
                                 </select>
                             </li>
