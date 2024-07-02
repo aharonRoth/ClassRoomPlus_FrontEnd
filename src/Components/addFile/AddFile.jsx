@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './AddFile.css';
 import axios from 'axios';
 
-function AddFile({courseId}) {
+function AddFile({courseId, openPostFile, setOpenPostFile}) {
 
   const [file, setFile] = useState(null);
   const [formDetails, setFormDetails] = useState({});
@@ -25,13 +25,9 @@ function AddFile({courseId}) {
     axios
       .post(`http://localhost:3000/files/course/${courseId}`, formData, { withCredentials: true })
       .then((res) => {
-        console.log(res.data);
-        console.log(res.data.file.file);
         const imageUrl = `http://localhost:3000/${res.data.file.file}`;
         console.log(imageUrl);
         setImage(imageUrl);
-        console.log(image);
-        console.log(res.data);
         const correctedFilePath = correctFilePath(res.data.file.file);
         console.log(correctedFilePath);
         axios.get(`http://localhost:3000/${correctedFilePath}`, {withCredentials: true})
@@ -45,13 +41,21 @@ function AddFile({courseId}) {
       .catch(err => console.log(err));
   };
 
+  
+    const handleClosePostFile = () => {
+      setOpenPostFile(false)
+      window.location.reload()
+
+    }
   const correctFilePath = (filePath) => {
     return filePath.replace(/\\/g, '/');
+
   };
 
   return (
     <>
       <main id='theFile'>
+        <button id='thePostFileClose' onClick={handleClosePostFile}> x </button>
         <form className='form' onSubmit={handleSubmit}>
           <input id='theIn' type="file" name="file" accept=".jpg,.jpeg,.png,.doc,.docx,.pdf" onChange={handleFile} />
           <input id='inputs' type="text" name="post" placeholder='post' onChange={handleOnChange} />
@@ -60,6 +64,7 @@ function AddFile({courseId}) {
         {image && (
           <div>
             <a href={image} target='_blank' rel='noopener noreferrer'>link</a>
+            {formDetails.post && <p>{formDetails.post}</p>} 
             <img src={image} alt="" />
           </div>
         )}

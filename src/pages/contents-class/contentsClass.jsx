@@ -13,6 +13,7 @@ import Chatbot from '../../Components/chatbot/chatbot'
 
 
 import Header from '../../Components/header/Header'
+import GetFullFIle from '../../Components/getFullFIle.jsx'
 
 
 const ContentsClass = () => {
@@ -27,6 +28,8 @@ const ContentsClass = () => {
   const [teacher, setTeacher] = useState(false)
   const [images, setImages] = useState([]);
   const [fullFile, setFullFile] = useState(false)
+  const [theFullFileId, setTheFullFileId] = useState('')
+
   const { courseId, openDate, endDate, courseName, description, price, userId, subscription } = location.state || {};
 
   const userInfo = localStorage.getItem('userInfo');
@@ -65,7 +68,6 @@ const ContentsClass = () => {
       try {
         const res = await axios.get(`http://localhost:3000/files/course/${courseId}`, { withCredentials: true });
         // const files = res.data.files.map(item => ({ ...item, file: `http://localhost:3000/${item.file}` }))
-        console.log(res.data.files);
         setImages(res.data.files);
 
       } catch (error) {
@@ -115,7 +117,6 @@ const ContentsClass = () => {
     setOpenPostFile(true)
   }
 
- console.log(images);
   return (
     <>
       <Header showLinks={false} showPartLinks={true} />
@@ -131,13 +132,13 @@ const ContentsClass = () => {
         <div className='theFriends'>
           <div className='theFriend'>
             {/* <img className='friendimg' src='' alt='avatar' /> */}
-            {!fullFile && (
-        <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}/>
-      )}
+        <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}
+         theFullFileId={theFullFileId}
+         setTheFullFileId={setTheFullFileId}  />
           </div>
         </div>
       </div>
-      {courses && !openPostFile && (
+      {courses && !openPostFile && !fullFile && (
         <>
           <div id='theUl1'>
             <ul id='ul'>
@@ -171,11 +172,13 @@ const ContentsClass = () => {
       )}
       {openPostFile && (
         <div>
-          <AddFile courseId={courseId} />
+          <AddFile openPostFile={openPostFile} setOpenPostFile={setOpenPostFile} courseId={courseId} />
         </div>
       )}
       {fullFile && (
-        <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}/>
+        <GetFullFIle fullFile={fullFile} setFullFile={setFullFile}
+        theFullFileId={theFullFileId}
+        />
       )}
     </>
   );

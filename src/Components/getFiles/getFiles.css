@@ -1,3 +1,8 @@
+#theGetFilesContainter{
+    border: 2px solid black;
+    padding: 10px;
+    margin: 8px;
+}
 img{
     width: 200px;
     height: 200px;
@@ -5,4 +10,14 @@ img{
     object-fit: cover; 
      border-radius: 10px; 
   }
-  
+  #deleteFile{
+    background-color: rgba(255, 0, 0, 0.695);
+    font-size: 14px;
+    font-weight: bolder;
+    width: 80px;
+    height: 50px;
+    box-shadow: 3px 3px gray;
+  }
+  #LinkButton{
+    background-color: rgba(0, 0, 255, 0.734);
+  }
