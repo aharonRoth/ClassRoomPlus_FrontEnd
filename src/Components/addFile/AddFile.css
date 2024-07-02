@@ -1,3 +1,74 @@
+/* Style the form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#theIn,
+#inputs,
+.submit {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#theIn {
+  background-color: #fff;
+}
+
+#inputs {
+  margin-top: 10px;
+}
+
+.submit {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit:hover {
+  background-color: #0056b3;
+}
+
+/* Style the file display */
+.file-display {
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.file-link:hover {
+  color: #0056b3;
+}
+
+.file-image {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
 #theFile {
     display: flex;
     flex-direction: column;

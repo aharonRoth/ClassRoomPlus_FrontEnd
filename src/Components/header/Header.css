@@ -1,36 +1,85 @@
-/* Minimal custom CSS, using utility classes from Bootstrap and Tailwind */
+/* Add this CSS to Header.css */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #343a40;
+    color: white;
+    padding: 0 20px;
+    height: 60px;
+}
+
 .logo-image {
-    height: 80px;
-    width: 80px;
-    border-radius: 50% 50%;
-
+    height: 40px;
+    margin-right: 10px;
 }
 
-h1 {
+.menu-toggle-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Hide the menu button by default */
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.nav-menu ul {
+    display: flex;
     margin: 0;
-    line-height: normal;
+    padding: 0;
+    list-style: none;
 }
-.theFriend
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 50px;
 
+.nav-menu.open {
+    display: block;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: #343a40;
+    z-index: 1000;
+}
 
+.nav-item {
+    margin: 0;
 }
-.friendimg{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    width: 50px;
-    border-radius: 50% 50%;
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
 }
-/* .theFriends{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
-    margin-left: 50px;
-} */
+
+.friendimg {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle-button {
+        display: block; /* Show the menu button on small screens */
+    }
+    
+    .nav-menu {
+        display: none; /* Hide the menu by default on small screens */
+        flex-direction: column;
+    }
+    
+    .nav-menu.open {
+        display: flex; /* Show the menu when open on small screens */
+    }
+    
+    .nav-item {
+        margin: 10px 0;
+    }
+}

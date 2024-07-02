@@ -102,3 +102,9 @@ img{
     height: 50px;
     border-radius: 50% 50%;
 }
+
+.active {
+    /* Your styles for the active tab button */
+    background-color: #007bff;
+    color: white;
+  }

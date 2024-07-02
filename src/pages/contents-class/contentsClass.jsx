@@ -13,7 +13,6 @@ import Chatbot from '../../Components/chatbot/chatbot'
 
 
 import Header from '../../Components/header/Header'
-import GetFullFIle from '../../Components/getFullFIle.jsx'
 
 
 const ContentsClass = () => {
@@ -28,8 +27,6 @@ const ContentsClass = () => {
   const [teacher, setTeacher] = useState(false)
   const [images, setImages] = useState([]);
   const [fullFile, setFullFile] = useState(false)
-  const [theFullFileId, setTheFullFileId] = useState('')
-
   const { courseId, openDate, endDate, courseName, description, price, userId, subscription } = location.state || {};
 
   const userInfo = localStorage.getItem('userInfo');
@@ -42,10 +39,7 @@ const ContentsClass = () => {
 
   useEffect(() => {
     checkUserAndToken();
-    if (isTeacher.length > 0 && isTeacher[0].role === 'teacher') {
-      setTeacher(true);
-    }
-  }, [checkUserAndToken, isTeacher]);
+  }, [checkUserAndToken, userId, theUserId]);
 
   // useEffect(() => {
   //   const fetchfriends = async () => {
@@ -68,54 +62,49 @@ const ContentsClass = () => {
       try {
         const res = await axios.get(`http://localhost:3000/files/course/${courseId}`, { withCredentials: true });
         // const files = res.data.files.map(item => ({ ...item, file: `http://localhost:3000/${item.file}` }))
+        console.log(res.data.files);
         setImages(res.data.files);
 
       } catch (error) {
         console.log(error);
+        console.error('Error fetching data:', error);
       }
-    };
+    }
 
-    fetchFiles();
+
+    fetchData();
   }, [courseId]);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [position, setPosition] = useState({});
-  const targetRef = useRef(null);
-
-
-  const togglePopup = () => {
-    const { top, left } = targetRef.current.getBoundingClientRect();
-    const popupTopPosition = top + window.scrollY - 30;
-    setPosition({ top: popupTopPosition, left: left + window.scrollX });
-    setIsOpen(!isOpen);
-  };
+  
   const handlePeople = () => {
-    setPeople(true)
-    setCourses(false)
-    setChats(false)
-    setOpenPostFile(false)
+    setPeople(true);
+    setCourses(false);
+    setChats(false);
+    setOpenPostFile(false);
+  };
 
-  }
   const handleChats = () => {
-    setChats(true)
-    setCourses(false)
-    setPeople(false)
-    setOpenPostFile(false)
+    setChats(true);
+    setCourses(false);
+    setPeople(false);
+    setOpenPostFile(false);
+  };
 
-
-
-  }
   const handleCourses = () => {
-    setCourses(true)
-    setPeople(false)
-    setChats(false)
-    setOpenPostFile(false)
+    setCourses(true);
+    setPeople(false);
+    setChats(false);
+    setOpenPostFile(false);
+  };
 
-
-  }
   const handleButtonPostFile = () => {
-    setOpenPostFile(true)
-  }
+    setOpenPostFile(true);
+  };
+
+ console.log(images);
+  const handleFileUpload = (newFile) => {
+    setImages([...images, newFile]);
+    setOpenPostFile(false);
+  };
 
   return (
     <>
@@ -132,13 +121,13 @@ const ContentsClass = () => {
         <div className='theFriends'>
           <div className='theFriend'>
             {/* <img className='friendimg' src='' alt='avatar' /> */}
-        <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}
-         theFullFileId={theFullFileId}
-         setTheFullFileId={setTheFullFileId}  />
+            {!fullFile && (
+        <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}/>
+      )}
           </div>
         </div>
       </div>
-      {courses && !openPostFile && !fullFile && (
+      {courses && !openPostFile && (
         <>
           <div id='theUl1'>
             <ul id='ul'>
@@ -147,7 +136,7 @@ const ContentsClass = () => {
               </li>
               <li>{openDate}</li>
               <li>{endDate}</li>
-              <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li>
+              {/* <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li> */}
               <li>{price}</li>
               {teacher && (
                 <button id='PostFile' onClick={handleButtonPostFile}>Post file</button>
@@ -161,9 +150,10 @@ const ContentsClass = () => {
             )}
           </div>
         </>
+       
       )}
       {people && (
-        <ContentsClassPeople courseId={courseId} />
+        <ContentsClassPeople friends={friends} />
       )}
       {chats && (
         <div>
@@ -172,13 +162,11 @@ const ContentsClass = () => {
       )}
       {openPostFile && (
         <div>
-          <AddFile openPostFile={openPostFile} setOpenPostFile={setOpenPostFile} courseId={courseId} />
+          <AddFile courseId={courseId} onFileUpload={handleFileUpload}  />
         </div>
       )}
       {fullFile && (
-        <GetFullFIle fullFile={fullFile} setFullFile={setFullFile}
-        theFullFileId={theFullFileId}
-        />
+        <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}/>
       )}
     </>
   );

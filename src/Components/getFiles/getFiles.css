@@ -3,12 +3,54 @@
     padding: 10px;
     margin: 8px;
 }
-img{
+
+  .file-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .file-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .file-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     width: 200px;
-    height: 200px;
-    padding: 10px;
-    object-fit: cover; 
-     border-radius: 10px; 
+    text-align: center;
+  }
+  
+  .file-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .file-link {
+    display: block;
+    margin-bottom: 10px;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .file-link:hover {
+    text-decoration: underline;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333;
   }
   #deleteFile{
     background-color: rgba(255, 0, 0, 0.695);

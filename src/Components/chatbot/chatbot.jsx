@@ -16,7 +16,7 @@ const Chatbot = ({ onNavigateToCourse }) => {
 
   const getPageIdentifier = (pathname) => {
     if (pathname.includes('dashboard')) return 'dashboard';
-    if (pathname.includes('App')) return 'contentsClass';
+    if (pathname.includes('contentsClass')) return 'contentsClass';
     if (pathname.includes('verifi')) return 'verifi';
     return 'home';
   };
