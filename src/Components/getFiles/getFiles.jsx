@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './getFiles.css';
 import DeleteFile from '../deleteFile/DeleteFile';
 
-const GetFiles = ({ images, teacher }) => {
-  const [openDeleteFile, setOpenDeleteFile] = useState(false);
+const GetFiles = ({ images, teacher, fullFile, setFullFile, theFullFileId, setTheFullFileId }) => {
+  const [openDeleteFile, setopenDeleteFile] = useState(null)
   const [selectedFileId, setSelectedFileId] = useState(null);
 
   const handleDeleteFile = (imageId) => {
@@ -11,34 +11,48 @@ const GetFiles = ({ images, teacher }) => {
     setOpenDeleteFile(true);
   };
 
-  const handleCloseDeleteModal = () => {
-    setOpenDeleteFile(false);
-    setSelectedFileId(null); // Reset selected file id after closing modal
-  };
+  const handleToFullFile = (fullFileId) => {
+    setFullFile(true)
+    setTheFullFileId(fullFileId)
+  }
+ 
 
   return (
-    <div className="file-container">
-      {images && (
-        <div className='file-grid'>
-          {images.map((image, index) => (
-            <div key={index} className='file-item'>
-              <a href={image.file} target='_blank' rel='noopener noreferrer' className='file-link'>
-                View File
-              </a>
-              {teacher && (
-                <button className='delete-button' onClick={() => handleDeleteFile(image._id)}>
-                  Delete File
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-      {openDeleteFile && selectedFileId && teacher && (
-        <DeleteFile theId={selectedFileId} onClose={handleCloseDeleteModal} />
-      )}
-    </div>
-  );
-};
+    <>
+  <div>
+      <div>
+        {images && (
+          <div className='d-flex flex-wrap'>
+            {images.map((image) => {
+              return(
+                <div  id='theGetFilesContainter' key={image._id}>
+                <button id='LinkButton' onClick={() => handleToFullFile(image._id)}> Link </button>
+                <p>{image.post}</p>
+                  {/* <img src={`http://localhost:3000/${image.file}`} alt="" /> */}
+                  {teacher && (
+                    <button id='deleteFile' onClick={() => handleDeleteFile(image._id)}>
+                      Delete file
+                    </button>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
+        {openDeleteFile && selectedFileId && (
+          <DeleteFile theId={selectedFileId} />
+        )}
+      </div>
+      </div>
+
+
+
+
+ 
+      </>
+    );
+  };
+
+
 
 export default GetFiles;

@@ -26,10 +26,14 @@ const ContentsClass = () => {
   const location = useLocation()
   const [teacher, setTeacher] = useState(false)
   const [images, setImages] = useState([]);
+  const [fullFile, setFullFile] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const targetRef = useRef(null);
   const { courseId, openDate, endDate, courseName, description, price, userId, subscription } = location.state || {};
 
   const userInfo = localStorage.getItem('userInfo');
-  const avatar = JSON.parse(localStorage.getItem('avatar'));
+  // const avatar = JSON.parse(localStorage.getItem('avatar'));
   const name = JSON.parse(userInfo).data.user.firstName
   const { data } = JSON.parse(userInfo)
   const theUserId = data.user._id
@@ -41,11 +45,13 @@ const ContentsClass = () => {
   }, [checkUserAndToken, userId, theUserId]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchfriends = async () => {
       try {
         const res = await axios.get(`http://localhost:3000/courses/${courseId}`, { withCredentials: true });
+        console.log(111,res.data.course);
 
-        setFriends(res.data.course.subscriptions);
+        setFriends(res.data.course.subscription);
+        console.log(2222,friends  );
       } catch (error) {
         console.log(error);
       }
@@ -71,7 +77,7 @@ const ContentsClass = () => {
     }
 
 
-    fetchData();
+    fetchFiles();
   }, [courseId]);
   
   const handlePeople = () => {
@@ -105,6 +111,16 @@ const ContentsClass = () => {
     setOpenPostFile(false);
   };
 
+
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+    const rect = targetRef.current.getBoundingClientRect();
+    setPosition({ top: rect.top, left: rect.left });
+  };
+
+
+
   return (
     <>
       <Header showLinks={false} showPartLinks={true} />
@@ -116,11 +132,13 @@ const ContentsClass = () => {
         <button onClick={handlePeople} className='mx-3' id={people ? 'Courses1' : 'people1'}>People</button>
       </div>
       <div id='theCourses1'>
-        <h2>Friends</h2>
+        <h2>Files</h2>
         <div className='theFriends'>
           <div className='theFriend'>
-            <img className='friendimg' src={avatar} alt='avatar' />
-            <p>{name}</p>
+            {/* <img className='friendimg' src='' alt='avatar' /> */}
+            {!fullFile && (
+        <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}/>
+      )}
           </div>
         </div>
       </div>
@@ -133,7 +151,7 @@ const ContentsClass = () => {
               </li>
               <li>{openDate}</li>
               <li>{endDate}</li>
-              {/* <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li> */}
+              <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li>
               <li>{price}</li>
               {teacher && (
                 <button id='PostFile' onClick={handleButtonPostFile}>Post file</button>
@@ -146,24 +164,8 @@ const ContentsClass = () => {
               </div>
             )}
           </div>
-        <>
-          <div id='theUl1'>
-            <ul id='ul'>
-              <li id='theLi'>
-                <h2>{courseName}</h2>
-              </li>
-              <li>{openDate}</li>
-              <li>{endDate}</li>
-              <li className='text-decoration-underline' id='De'>{description}</li>
-              <li>{price}</li>
-              {teacher && (
-                <button id='PostFile' onClick={handleButtonPostFile}>Post file</button>
-              )}
-            </ul>
-          </div>
-          <GetFiles images={images} teacher={teacher} />
         </>
-        </>
+       
       )}
       {people && (
         <ContentsClassPeople friends={friends} />
@@ -177,6 +179,9 @@ const ContentsClass = () => {
         <div>
           <AddFile courseId={courseId} onFileUpload={handleFileUpload}  />
         </div>
+      )}
+      {fullFile && (
+        <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}/>
       )}
     </>
   );

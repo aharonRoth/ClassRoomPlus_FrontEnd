@@ -1,0 +1,15 @@
+#fullImage{
+    width: 50vw;
+    height: 50vh;
+    margin: 0 auto;
+}
+#theFullFIleContinetr{
+    width: 700px;
+    margin: 0 auto;
+}
+#theCloseButoon{
+    margin-left: 630px;
+    color: red;
+    box-shadow: 2px 0.3px  gray;
+    border-radius: 50%;
+}

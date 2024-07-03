@@ -38,16 +38,24 @@ function AddFile({ courseId, onFileUpload }) {
         const imageUrl = `http://localhost:3000/files/course/${correctFilePath(res.data.file.file)}`;
         console.log(res.data.file.file);
         setImage(imageUrl);
-        onFileUpload({ ...res.data.file, file: imageUrl });
-        setShowForm(false);
+        console.log(image);
+        console.log(res.data);
+        const correctedFilePath = correctFilePath(res.data.file.file);
+        console.log(correctedFilePath);
+        axios.get(`http://localhost:3000/${correctedFilePath}`, {withCredentials: true})
+          .then(res => {
+            console.log(res.data);
+            const aimage = `http://localhost:3000/${correctedFilePath}`;
+            setImage(aimage);
+          })
+          .catch(err => console.log(err));
       })
-      .catch((err) => {
-        console.error("Error during file upload:", err);
-      });
+      .catch(err => console.log(err));
   };
 
   const correctFilePath = (filePath) => {
     return filePath.replace(/\\/g, '/');
+
   };
 
   return (
