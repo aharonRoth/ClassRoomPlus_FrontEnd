@@ -6,37 +6,25 @@ const ContentsClassPeople = ({friends }) => {
   console.log('Friends:', friends);
   const [error, setError] = useState(null);
   const [subscribed, setSubscribed] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const { data } = await axios.get(`http://localhost:3000/courses/${courseId}`, { withCredentials: true });
-
-  //       const theCourseSubscriptions = data.courses.subscription;
-
-        const filtered = theCourseSubscriptions.map(subscription => subscription.userId);
-
-  //       setSubscribed(filtered);
-  //     } catch (error) {
-  //       setError('There is an error');
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [courseId]);
+  const [loading, setLoading] = useState(true);
 
   return (
-    <div>
-      <h2>Users List</h2>
-      {error && <p>{error}</p>}
-      <ul>
-        {friends.map((friend, index) => (
-          <li key={index}>{friend.userId}</li>
+    <div className="contents-class-people">
+      <h1>Friends</h1>
+      <div className="contents-class-people__container">
+        {friends.map(friend => (
+          <div key={friend._id} className="contents-class-people__card">
+            <h2>{friend.role}</h2>
+            <h2>{friend.userId.firstName}</h2>
+            <h3>{friend.userId.lastName}</h3>
+          
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
-}
+
+};
 
 
 export default ContentsClassPeople;

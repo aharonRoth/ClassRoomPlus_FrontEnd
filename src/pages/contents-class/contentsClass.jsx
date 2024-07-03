@@ -27,6 +27,9 @@ const ContentsClass = () => {
   const [teacher, setTeacher] = useState(false)
   const [images, setImages] = useState([]);
   const [fullFile, setFullFile] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const targetRef = useRef(null);
   const { courseId, openDate, endDate, courseName, description, price, userId, subscription } = location.state || {};
 
   const userInfo = localStorage.getItem('userInfo');
@@ -41,18 +44,20 @@ const ContentsClass = () => {
     checkUserAndToken();
   }, [checkUserAndToken, userId, theUserId]);
 
-  // useEffect(() => {
-  //   const fetchfriends = async () => {
-  //     try {
-  //       const res = await axios.get(`http://localhost:3000/courses/${courseId}`, { withCredentials: true });
+  useEffect(() => {
+    const fetchfriends = async () => {
+      try {
+        const res = await axios.get(`http://localhost:3000/courses/${courseId}`, { withCredentials: true });
+        console.log(111,res.data.course);
 
-  //       setFriends(res.data.course.subscriptions);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   fetchfriends()
-  // }, [courseId])
+        setFriends(res.data.course.subscription);
+        console.log(2222,friends  );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchfriends()
+  }, [courseId])
 
 
 
@@ -72,7 +77,7 @@ const ContentsClass = () => {
     }
 
 
-    fetchData();
+    fetchFiles();
   }, [courseId]);
   
   const handlePeople = () => {
@@ -106,6 +111,16 @@ const ContentsClass = () => {
     setOpenPostFile(false);
   };
 
+
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+    const rect = targetRef.current.getBoundingClientRect();
+    setPosition({ top: rect.top, left: rect.left });
+  };
+
+
+
   return (
     <>
       <Header showLinks={false} showPartLinks={true} />
@@ -136,7 +151,7 @@ const ContentsClass = () => {
               </li>
               <li>{openDate}</li>
               <li>{endDate}</li>
-              {/* <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li> */}
+              <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li>
               <li>{price}</li>
               {teacher && (
                 <button id='PostFile' onClick={handleButtonPostFile}>Post file</button>
