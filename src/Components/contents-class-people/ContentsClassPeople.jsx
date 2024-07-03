@@ -15,6 +15,7 @@ const ContentsClassPeople = ({friends }) => {
         {friends.map(friend => (
           <div key={friend._id} className="contents-class-people__card">
             <h2>{friend.role}</h2>
+            <img className="friendimg"src={friend.userId.avatar} alt="avatar" />
             <h2>{friend.userId.firstName}</h2>
             <h3>{friend.userId.lastName}</h3>
           
