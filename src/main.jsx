@@ -8,8 +8,11 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx';
 import ContentsClass from './pages/contents-class/contentsClass.jsx';
 import Home from './pages/home/Home.jsx';
 import Verifi from './pages/approve/Verifi.jsx';
-import Signup from './pages/signup/Signup.jsx'
-import About from './Components/header/AboutSection.jsx'
+import Signup from './pages/signup/Signup.jsx';
+import About from './Components/header/AboutSection.jsx';
+// import EditProfile from './pages/profile/EditProfile.jsx'
+import Profile from './pages/profile/Profile.jsx'; // Adjust the import path as needed
+// import ChangePassword from './pages/profile/ChangePassword.jsx'; // Adjust the import path as needed
 
 const router = createBrowserRouter([
     {
@@ -45,9 +48,17 @@ const router = createBrowserRouter([
         element: <Verifi />
     },
     {
-        path: 'About',
-        element: <Navigate to="/dashboard/about" replace />
+        path: 'profile',
+        element: <Profile />
     },
+    // {
+    //     path: 'edit-profile',
+    //     element: <EditProfile />
+    // },
+    // {
+    //     path: 'change-password',
+    //     element: <ChangePassword />
+    // },
     {
         path: '*',
         element: <Navigate to="/" replace />

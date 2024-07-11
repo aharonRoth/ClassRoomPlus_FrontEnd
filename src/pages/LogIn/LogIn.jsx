@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '././../../Components/header/Header'
+import Footer from './../../Components/footer/Footer'
 
 import './Login.css'
 
@@ -22,12 +23,14 @@ const Login = () => {
     };
     try {
       const { data } = await axios.post(`http://localhost:3000/users/login`, { email, password }, { withCredentials: true });
-      console.log(data);
+
+     
       if (data) {
         localStorage.setItem('userInfo', JSON.stringify(data));
         navigate('/dashboard');
         return;
       }
+     
     } catch (error) {
       if (!email && !password) {
         setMissing('');
@@ -56,6 +59,7 @@ const Login = () => {
   return (
     <>
     {/*the heater should be with no links  */}
+   
     <Header showLinks={false} />
       <div className='maincontainer1'>
         <div className="login-container">
@@ -86,7 +90,7 @@ const Login = () => {
           </form>
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

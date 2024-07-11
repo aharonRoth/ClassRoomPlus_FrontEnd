@@ -1,33 +1,45 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './AddFile.css';
 import axios from 'axios';
 
-function AddFile({courseId, openPostFile, setOpenPostFile}) {
-
+function AddFile({ courseId, onFileUpload }) {
+  const [showForm, setShowForm] = useState(true);
   const [file, setFile] = useState(null);
   const [formDetails, setFormDetails] = useState({});
   const [image, setImage] = useState('');
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormDetails({ ...formDetails, [name]: value });
   };
 
-  const handleFile = e => {
+  const handleFile = (e) => {
     setFile(e.target.files[0]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!file) {
+      console.log("No file selected");
+      return;
+    }
+
     const formData = new FormData();
     formData.append('file', file);
-    Object.entries(formDetails).map((attr) => formData.append(attr[0], attr[1]));
+    Object.entries(formDetails).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
     axios
       .post(`http://localhost:3000/files/course/${courseId}`, formData, { withCredentials: true })
       .then((res) => {
-        const imageUrl = `http://localhost:3000/${res.data.file.file}`;
-        console.log(imageUrl);
+        // console.log("File upload response:", res.data);
+
+        const imageUrl = `http://localhost:3000/files/course/${correctFilePath(res.data.file.file)}`;
+        console.log(res.data.file.file);
         setImage(imageUrl);
+        console.log(image);
+        console.log(res.data);
         const correctedFilePath = correctFilePath(res.data.file.file);
         console.log(correctedFilePath);
         axios.get(`http://localhost:3000/${correctedFilePath}`, {withCredentials: true})
@@ -41,12 +53,6 @@ function AddFile({courseId, openPostFile, setOpenPostFile}) {
       .catch(err => console.log(err));
   };
 
-  
-    const handleClosePostFile = () => {
-      setOpenPostFile(false)
-      window.location.reload()
-
-    }
   const correctFilePath = (filePath) => {
     return filePath.replace(/\\/g, '/');
 
@@ -54,24 +60,35 @@ function AddFile({courseId, openPostFile, setOpenPostFile}) {
 
   return (
     <>
-      <main id='theFile'>
-        <button id='thePostFileClose' onClick={handleClosePostFile}> x </button>
-        <form className='form' onSubmit={handleSubmit}>
-          <input id='theIn' type="file" name="file" accept=".jpg,.jpeg,.png,.doc,.docx,.pdf" onChange={handleFile} />
-          <input id='inputs' type="text" name="post" placeholder='post' onChange={handleOnChange} />
-          <input className='submit' type="submit" value="Upload" />
-        </form>
-        {image && (
-          <div>
-            <a href={image} target='_blank' rel='noopener noreferrer'>link</a>
-            {formDetails.post && <p>{formDetails.post}</p>} 
-            <img src={image} alt="" />
-          </div>
-        )}
-      </main>
+      {showForm && (
+        <main id='theFile'>
+          <form className='form' onSubmit={handleSubmit}>
+            <input
+              id='theIn'
+              type='file'
+              name=''
+              accept='.jpg,.jpeg,.png,.doc,.docx,.pdf'
+              onChange={handleFile}
+            />
+            <input
+              id='inputs'
+              type='text'
+              name='post'
+              placeholder='Post'
+              onChange={handleOnChange}
+            />
+            <input className='submit' type='submit' value='Upload' />
+          </form>
+        </main>
+      )}
+      {!showForm && image && (
+        <div className="file-display">
+          <img src={image} alt="Uploaded file" className="file-image" />
+          <a href={image} className="file-link" target="_blank" rel="noopener noreferrer">View File</a>
+        </div>
+      )}
     </>
   );
-
 }
 
 export default AddFile;

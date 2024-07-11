@@ -18,7 +18,7 @@ const AboutSection = ({ courses }) => {
   ];
 
   return (
-  <>
+  <div id='aboutbody'>
 <Header showLinks={false} showPartLinks={true} /> 
      
     <div className="container py-5">
@@ -48,13 +48,13 @@ const AboutSection = ({ courses }) => {
         )}
 
         <div className="text-center mt-5">
-          <a href="#" className="btn btn-primary btn-lg">
+          <a href="" className="btn btn-primary btn-lg">
             {isCoursePage ? "Enroll Now" : "Join ClassRoom+ Today!"}
           </a>
         </div>
       </div>
     </div>
-    </>
+    </div>
   );
 };
 

@@ -22,11 +22,11 @@ const AddCourse = ({ onClose, userId }) => {
     const [success, setSuccess] = useState('');
 
     const courseImages = [
-        '/assets/courseImages/course1.png',
-        '/assets/courseImages/course2.png',
-        '/assets/courseImages/course3.png',
-        '/assets/courseImages/course4.png',
-        '/assets/courseImages/course5.png',
+        'src/assets/courseImages/course1.jpg',
+        'src/assets/courseImages/course2.jpg',
+        'src/assets/courseImages/course3.jpg',
+        'src/assets/courseImages/course4.jpg',
+        'src/assets/courseImages/course5.jpg',
         // Add more course images as needed
     ];
 

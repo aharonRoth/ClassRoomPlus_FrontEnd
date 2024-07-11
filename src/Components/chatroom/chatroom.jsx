@@ -8,6 +8,7 @@ const Chatroom = ({ courseId }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [file, setFile] = useState(null);
+    const [videoSrc, setVideoSrc] = useState(null); // State for video pop-up
     const user = JSON.parse(localStorage.getItem('userInfo'));
     const userId = user.data.user._id;
     const messagesEndRef = useRef(null);
@@ -21,6 +22,7 @@ const Chatroom = ({ courseId }) => {
             const response = await axios.get(`http://localhost:3000/posts/course/${courseId}`, {
                 withCredentials: true
             });
+            console.log('Fetched messages:', response.data.posts);
             setMessages(response.data.posts);
             scrollToBottom();
         } catch (error) {
@@ -49,7 +51,7 @@ const Chatroom = ({ courseId }) => {
 
             setNewMessage('');
             setFile(null);
-            document.getElementById('file-upload').value = null; // Reset file input
+            document.getElementById('file-upload').value = null; // Reset file input (if needed)
             fetchMessages();
         } catch (error) {
             console.error('Error sending message:', error);
@@ -65,6 +67,23 @@ const Chatroom = ({ courseId }) => {
         }
     };
 
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const handleFileClick = (fileUrl) => {
+        const fileExtension = fileUrl.split('.').pop().toLowerCase();
+        if (fileExtension === 'mp4') {
+            setVideoSrc(fileUrl); // Set the video source to open in the pop-up
+        } else {
+            window.open(fileUrl, '_blank'); // Open other files in a new tab
+        }
+    };
+
+    const handleCloseVideo = () => {
+        setVideoSrc(null); // Close the video pop-up
+    };
+
     return (
         <div className="chatroom-container">
             <div className="messages-container">
@@ -75,6 +94,11 @@ const Chatroom = ({ courseId }) => {
                     >
                         <div className="message-content">
                             {message.postData}
+                            {message.postFiles && message.postFiles.map((file, index) => (
+                                <div key={index} className="file-link" onClick={() => handleFileClick(`http://localhost:3000/${file}`)}>
+                                    {file.split('/').pop()} {/* Display file name */}
+                                </div>
+                            ))}
                         </div>
                         {message.userId === userId && (
                             <button className="delete-button" onClick={() => handleDeleteMessage(message._id)}>
@@ -99,10 +123,22 @@ const Chatroom = ({ courseId }) => {
                     id="file-upload"
                     type="file"
                     style={{ display: 'none' }}
-                    onChange={(e) => setFile(e.target.files[0])}
+                    onChange={handleFileChange}
                 />
                 <button className="send-button" onClick={handleSendMessage}>Send</button>
             </div>
+
+            {videoSrc && (
+                <div className="video-popup">
+                    <div className="video-popup-content">
+                        <span className="close-button" onClick={handleCloseVideo}>&times;</span>
+                        <video controls>
+                            <source src={videoSrc} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
