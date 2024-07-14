@@ -94,14 +94,16 @@ const ContentsClass = () => {
     setCourses(false)
     setChats(false)
     setOpenPostFile(false)
-
+    setFullFile(false)
+  
   }
   const handleChats = () => {
     setChats(true)
     setCourses(false)
     setPeople(false)
     setOpenPostFile(false)
-
+    setFullFile(false)
+  
 
 
   }
@@ -110,8 +112,8 @@ const ContentsClass = () => {
     setPeople(false)
     setChats(false)
     setOpenPostFile(false)
-
-
+  
+  
   }
   const handleButtonPostFile = () => {
     setOpenPostFile(true)
@@ -132,9 +134,11 @@ const ContentsClass = () => {
         <div className='theFriends'>
           <div className='theFriend'>
             {/* <img className='friendimg' src='' alt='avatar' /> */}
+        {!people && !chats && (
         <GetFiles images={images} teacher={teacher} fullFile={fullFile} setFullFile={setFullFile}
          theFullFileId={theFullFileId}
          setTheFullFileId={setTheFullFileId}  />
+        )}
           </div>
         </div>
       </div>
@@ -150,13 +154,13 @@ const ContentsClass = () => {
               <li ref={targetRef} onMouseEnter={togglePopup} onMouseLeave={togglePopup} className='text-decoration-underline' id='De'>{description}</li>
               <li>{price}</li>
               {teacher && (
-                <button id='PostFile' onClick={handleButtonPostFile}>Post file</button>
+                <button id='PostFile' onClick={handleButtonPostFile}> Post file </button>
               )}
             </ul>
             {isOpen && (
               <div id="popup" style={{ top: position.top, left: position.left }}>
                 <span className="close" onClick={togglePopup}>&times;</span>
-                <p>Here goes the text of the description.</p>
+                {/* <p> Here goes the text of the description. </p> */}
               </div>
             )}
           </div>
