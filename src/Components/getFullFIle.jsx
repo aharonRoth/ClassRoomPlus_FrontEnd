@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import './getFullFile.css'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import './getFullFile.css';
+import axios from 'axios';
 
 const GetFullFIle = ({ fullFile, setFullFile, theFullFileId }) => {
-    const [theSelectedFile, setTheSelectedFile] = useState(null)
+    const [theSelectedFile, setTheSelectedFile] = useState(null);
+
     useEffect(() => {
         const fetchSelectedFile = async () => {
             try {
@@ -16,33 +17,40 @@ const GetFullFIle = ({ fullFile, setFullFile, theFullFileId }) => {
 
         fetchSelectedFile();
     }, [theFullFileId]);
-    console.log(theSelectedFile);
-
-
-
 
     const handleToFullFileClose = () => {
-        setFullFile(false)
+        setFullFile(false);
     }
 
-    console.log(theSelectedFile);
+    const renderFile = () => {
+        if (theSelectedFile) {
+            const fileType = theSelectedFile.data.file.file.split('.').pop().toLowerCase();
+            const filePath = `http://localhost:3000/${theSelectedFile.data.file.file}`;
+
+            if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(fileType)) {
+                return <img id="full" src={filePath} alt="" />;
+            } else{
+                return <iframe id="full" src={filePath} title="file" />;
+            } 
+            // else {
+            //     return <iframe id="fullFile" src={filePath} title="file" />;
+            // }
+        }
+
+        return <p>Loading...</p>;
+    }
+
     return (
         <div id='theFullFIleContinetr'>
-            <div >
+            <div>
                 <div id='theCloseButoon'>
                     <button onClick={handleToFullFileClose}> x </button>
                 </div>
-                {theSelectedFile ? (
-                    <>
-                        <div>task: {theSelectedFile.data.file.post}</div>
-                        <img id="fullImage" src={`http://localhost:3000/${theSelectedFile.data.file.file}`} alt="" />
-                    </>
-                ) : (
-                    <p>Loading...</p>
-                )}
+                <div>task: {theSelectedFile ? theSelectedFile.data.file.post : 'Loading...'}</div>
+                {renderFile()}
             </div>
         </div>
-    )
+    );
 }
 
-export default GetFullFIle
+export default GetFullFIle;
