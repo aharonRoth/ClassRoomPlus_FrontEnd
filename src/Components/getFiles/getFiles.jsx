@@ -8,7 +8,7 @@ const GetFiles = ({ images, teacher, fullFile, setFullFile, theFullFileId, setTh
 
   const handleDeleteFile = (imageId) => {
     setSelectedFileId(imageId);
-    setOpenDeleteFile(true);
+    setopenDeleteFile(true);
   };
 
   const handleToFullFile = (fullFileId) => {
