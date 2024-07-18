@@ -21,6 +21,10 @@ const Subjects = ({ courses, setCourses, categories, show }) => {
         const { value } = event.target;
         try {
             let url = 'http://localhost:3000/courses/';
+            if(value == 'All'){
+                setCourses(categories)
+                return
+            }
             if (value !== 'All') {
                 url += `${value}`;
             }
