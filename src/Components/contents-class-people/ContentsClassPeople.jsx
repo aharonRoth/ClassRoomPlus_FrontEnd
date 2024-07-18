@@ -49,6 +49,7 @@ const ContentsClassPeople = ({ courseId }) => {
   }
 
   return (
+
     <div>
       <h2> Teachers </h2>
       {theCourseTeacher ? (
@@ -69,6 +70,20 @@ const ContentsClassPeople = ({ courseId }) => {
         )}
       </ul>
         {error && <p>{error}</p>}
+
+    <div className="contents-class-people">
+      <h1>Friends</h1>
+      <div className="contents-class-people__container">
+        {friends.map(friend => (
+          <div key={friend._id} className="contents-class-people__card">
+            <h2>{friend.role}</h2>
+            <img className="friendimg"src={friend.userId.avatar} alt="avatar" />
+            <h2>{friend.userId.firstName}</h2>
+            <h3>{friend.userId.lastName}</h3>
+          
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
