@@ -4,7 +4,8 @@ import axios from 'axios';
 import Update from '../upDate/upDate';
 import Delete from '../delete/delete';
 
-const Subjects = ({ courses, setCourses, categories, show }) => {
+const Subjects = ({ courses, setCourses, categories, show, showButton, theButton }) => {
+    console.log(showButton);
     const [userCourses, setUserCourses] = useState([]);
     const [loading, setLoading] = useState(true); // New loading state
 
@@ -81,7 +82,7 @@ const Subjects = ({ courses, setCourses, categories, show }) => {
             </div>
             )}
             <div>
-                <CoursesList show={show} courses={courses} />
+                <CoursesList show={show} courses={courses} showButton={showButton} theButton={theButton} />
             </div>
         </>
     );

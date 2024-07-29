@@ -10,7 +10,11 @@ const Header = ({ showLinks, showPartLinks }) => {
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
+    
+           
+
     useEffect(() => {
+     
         const userinfo = JSON.parse(localStorage.getItem('userInfo'));
 
         if (!userinfo) {

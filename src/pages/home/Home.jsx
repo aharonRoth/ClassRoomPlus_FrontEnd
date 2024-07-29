@@ -19,6 +19,7 @@ const Home = () => {
     const [error, setError] = useState(null);
     const [categories, setCategories] = useState([]);
     const [show, setShow] = useState(true);
+    const [showButton, setShowButton] = useState(false)
 
   const checkUserAndToken= UtilsCheckUserAndToken()
     useEffect(() => {
@@ -58,7 +59,8 @@ const Home = () => {
              show={show}
              courses={courses}
              setCourses={setCourses}
-             categories={categories}/>
+             categories={categories}
+             showButton={showButton}/>
             <Footer />
             <>
                 {/* <TeachersSection/> */}
