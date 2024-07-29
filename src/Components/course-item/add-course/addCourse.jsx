@@ -4,7 +4,7 @@ import './addCourse.css';
 import UtilsCheckUserAndToken from '../../../utils/utilsCheckUserAndToken';
 import CourseImageModal from './../../../../src/assets/courseImages/CourseImageModal';
 
-const AddCourse = ({ onClose, userId }) => {
+const AddCourse = ({  userId, addCourse, setAddCourse }) => {
     const checkUserAndToken = UtilsCheckUserAndToken();
     console.log(userId);
     const [courseData, setCourseData] = useState({
@@ -59,11 +59,15 @@ const AddCourse = ({ onClose, userId }) => {
         setCourseData({ ...courseData, courseimg: selectedImage });
         setShowImageModal(false);
     };
+    const handleClose = () => {
+        setAddCourse(false);
+      };
+    
 
     return (
         <div className="add-course-modal">
             <div className="add-course-container">
-                <button className="close-button" onClick={onClose}>X</button>
+                <button id="close-button" onClick={handleClose}>X</button>
                 <form className="add-course-form" onSubmit={handleSubmit}>
                     <h2 className="add-course-title">Create a New Course</h2>
                     {error && <div className="error-message">{error}</div>}

@@ -19,9 +19,9 @@ function App() {
   const [isSubscribed, setIsSubscribed] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [show, setShow] = useState(false);
+  const [theButton, setTheButton] = useState(true)
 
   const checkUserAndToken = UtilsCheckUserAndToken();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,9 +58,7 @@ function App() {
     setAddCourse(!addCourse);
   };
 
-  const handleClose = () => {
-    setAddCourse(false);
-  };
+
 
   const handleNavigateToCourse = (courseId) => {
     const course = coursesArr.find(c => c._id === courseId);
@@ -76,12 +74,12 @@ function App() {
       <div>
         <Header showLinks={true} showPartLinks={false} showAdminLinks={false} />
         <Chatbot />
-        {addCourse && <AddCourse handleClose={handleClose} userId={userId} />}
+        {addCourse && <AddCourse  userId={userId} addCourse={setAddCourse} setAddCourse={setAddCourse} />}
         <button className="btn btn-primary" onClick={handleButton}>Add Course</button>
         {isSubscribed ? (
           selectedCourse ? (
             <>
-              <CourseItem
+              {/* <CourseItem
                 openDate={selectedCourse.openDate}
                 endDate={selectedCourse.endDate}
                 id={selectedCourse.userId}
@@ -91,7 +89,8 @@ function App() {
                 userId={selectedCourse.userId}
                 courseId={selectedCourse._id}
                 courseimg={selectedCourse.courseimg}
-              />
+                theButton={theButton}
+              /> */}
               <Subscription courseId={selectedCourse._id} userId={userId} />
             </>
           ) : (
@@ -100,6 +99,7 @@ function App() {
               courses={coursesArr}
               setCourses={setCoursesArr}
               categories={categories}
+              theButton={theButton}
             />
           )
         ) : (
